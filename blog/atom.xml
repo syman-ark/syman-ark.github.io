@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://syman-ark.github.io/blog</id>
-    <title>Ark Blog</title>
+    <title>ARK Blog</title>
     <updated>2017-10-24T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
     <link rel="alternate" href="https://syman-ark.github.io/blog"/>
-    <subtitle>The best place to stay up-to-date with the latest Ark news and events.</subtitle>
+    <subtitle>The best place to stay up-to-date with the latest ARK news and events.</subtitle>
     <logo>https://syman-ark.github.io/img/favicon.ico</logo>
     <rights>Copyright © 2019 Syman Software</rights>
     <entry>
