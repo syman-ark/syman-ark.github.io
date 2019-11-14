@@ -1,4 +1,60 @@
-<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>框架表单系统控制逻辑 · ARK</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; **R3**框架明细界面(单对象)，本质是表单系统，该系统中每个字段允许附加的控制逻辑如下（在表单系统中，每个字段按照**主控**以及**被控**的关系可以分为**主控字段**以及**被控字段**）"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="框架表单系统控制逻辑 · ARK"/><meta property="og:type" content="website"/><meta property="og:url" content="https://syman-ark.github.io/"/><meta property="og:description" content="&gt; **R3**框架明细界面(单对象)，本质是表单系统，该系统中每个字段允许附加的控制逻辑如下（在表单系统中，每个字段按照**主控**以及**被控**的关系可以分为**主控字段**以及**被控字段**）"/><meta property="og:image" content="https://syman-ark.github.io/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://syman-ark.github.io/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/favicon.ico" alt="ARK"/><h2 class="headerTitleWithLogo">ARK</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/docs/R3-API" target="_self">R3</a></li><li class=""><a href="/docs/ARK-CLI" target="_self">CLI</a></li><li class=""><a href="/docs/ARK-Share" target="_self">Share</a></li><li class=""><a href="/docs/ARK-DingTalk" target="_self">DingTalk</a></li><li class=""><a href="/docs/JFlowPlugin-Version" target="_self">JFlowPlugin</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">框架表单系统控制逻辑</h1></header><article><div><span><blockquote>
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>框架表单系统控制逻辑 · ARK</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt; **R3**框架明细界面(单对象)，本质是表单系统，该系统中每个字段允许附加的控制逻辑如下（在表单系统中，每个字段按照**主控**以及**被控**的关系可以分为**主控字段**以及**被控字段**）"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="框架表单系统控制逻辑 · ARK"/><meta property="og:type" content="website"/><meta property="og:url" content="https://syman-ark.github.io/"/><meta property="og:description" content="&gt; **R3**框架明细界面(单对象)，本质是表单系统，该系统中每个字段允许附加的控制逻辑如下（在表单系统中，每个字段按照**主控**以及**被控**的关系可以分为**主控字段**以及**被控字段**）"/><meta property="og:image" content="https://syman-ark.github.io/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://syman-ark.github.io/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/favicon.ico" alt="ARK"/><h2 class="headerTitleWithLogo">ARK</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/docs/R3-API" target="_self">R3</a></li><li class=""><a href="/docs/ARK-CLI" target="_self">CLI</a></li><li class=""><a href="/docs/ARK-Share" target="_self">Share</a></li><li class=""><a href="/docs/ARK-DingTalk" target="_self">DingTalk</a></li><li class=""><a href="/docs/JFlowPlugin-Version" target="_self">JFlowPlugin</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>R3</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">R3</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/R3-API">R3 API</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-RoutePolicy">R3 Route Policy</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-customPage-configuration-rules">R3 CustomPage Configuration Rules</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/R3-Form-Config">R3 Form Config</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">框架表单系统控制逻辑</h1></header><article><div><span><blockquote>
 <p><strong>R3</strong>框架明细界面(单对象)，本质是表单系统，该系统中每个字段允许附加的控制逻辑如下（在表单系统中，每个字段按照<strong>主控</strong>以及<strong>被控</strong>的关系可以分为<strong>主控字段</strong>以及<strong>被控字段</strong>）</p>
 <ul>
 <li><strong>主控字段</strong>的值发生变化，是唯一触发<strong>被控字段</strong>受控逻辑的契机。<strong>被控字段</strong>受控场景有且仅有本文所述内容：</li>
@@ -152,4 +208,4 @@
 <blockquote>
 <p><strong><em>场景一：</em></strong> 有任意类型字段A1、A2、...、An，当其中任意<strong>主控字段</strong>的值发生变化时，需要根据业务需求为B1、B2、...、Bn赋值。此种情况全部统一走R3接口服务处理。即：当A1、A2、...、An中任意字段值发生变化时，携带指定参数请求对应的服务接口，接口返回B1、B2、...、Bn的即时值，由前端实时赋值处理。</p>
 </blockquote>
-</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#受控点一-是否允许编辑">受控点一：是否允许编辑</a></li><li><a href="#受控点二-是否必填">受控点二：是否必填</a></li><li><a href="#受控点三-是否显示">受控点三：是否显示</a></li><li><a href="#受控点四-备选值-即时赋值">受控点四： 备选值、即时赋值</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/favicon.ico" alt="ARK" width="66" height="58"/></a><div><h5>Community</h5><a href="http://dev.monkey.burgeononline.com:9091/">Fool Monkey</a><a href="http://dev.burgeononline.com:8130">Ark Share</a></div><div><h5>More</h5><a href="https://github.com/">GitHub</a><a class="github-button" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Syman Software</section></footer></div></body></html>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/R3-CustomTabPolicy"><span class="arrow-prev">← </span><span>Previous</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#受控点一-是否允许编辑">受控点一：是否允许编辑</a></li><li><a href="#受控点二-是否必填">受控点二：是否必填</a></li><li><a href="#受控点三-是否显示">受控点三：是否显示</a></li><li><a href="#受控点四-备选值-即时赋值">受控点四： 备选值、即时赋值</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/favicon.ico" alt="ARK" width="66" height="58"/></a><div><h5>Community</h5><a href="http://dev.monkey.burgeononline.com:9091/">Fool Monkey</a><a href="http://dev.burgeononline.com:8130">Ark Share</a></div><div><h5>More</h5><a href="https://github.com/">GitHub</a><a class="github-button" data-icon="octicon-star" data-count-href="/facebook/docusaurus/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2019 Syman Software</section></footer></div></body></html>
