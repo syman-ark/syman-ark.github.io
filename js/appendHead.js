@@ -3,8 +3,9 @@ setTimeout(function () {
   const isEdge = UA && UA.indexOf('edge/') > 0;
   const isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
   var isFF = UA && UA.match(/firefox\/(\d+)/);
+  var isIOS = (UA && /iphone|ipad|ipod|ios/.test(UA));
   console.log(isFF);
-  if (isChrome || isFF) {
+  if (isChrome || isFF ||isIOS) {
     document.getElementsByTagName("title")[0].text = "ARK";
     var highLightId = '';
     var headTitleBox = document.getElementsByClassName("nav-site nav-site-internal")[0];

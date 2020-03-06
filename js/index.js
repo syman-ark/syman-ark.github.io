@@ -7,7 +7,7 @@ setTimeout(() => {
             }
         }
         if(document.getElementById('vBg')){
-            document.getElementById("vBg").onclick = () =>{ 
+            document.getElementById("vBg").onclick = () =>{
                 var maskBlock = document.getElementsByClassName("mask")[0];
                     maskBlock.style.display = "flex";
             }
@@ -16,10 +16,12 @@ setTimeout(() => {
             document.getElementById("close").onclick = () =>{
                 var maskBlock = document.getElementsByClassName("mask")[0];
                     maskBlock.style.display = "none";
+                var video = document.getElementsByClassName("pArea")[0];
+                    video.pause(); //暂停控制
             }
         }
         if(document.getElementById('scroll')){
-            document.getElementById("scroll").onload = (() =>{            
+            document.getElementById("scroll").onload = (() =>{
                 var box = document.getElementById("scroll");
                 var begin = document.getElementById("block-img1");
                 var tab2=document.getElementById("block-img2");
