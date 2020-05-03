@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>R3-START · </title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;!-- ---"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="R3-START · "/><meta property="og:type" content="website"/><meta property="og:url" content="https://syman-ark.github.io/"/><meta property="og:description" content="&lt;!-- ---"/><meta property="og:image" content="https://syman-ark.github.io/http://ark-static.oss-cn-hangzhou.aliyuncs.com/ark-doc/static/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://syman-ark.github.io/http://ark-static.oss-cn-hangzhou.aliyuncs.com/ark-doc/static/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="//at.alicdn.com/t/font_1180712_fwm8p6w3rmr.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="/js/appendHead.js"></script><script type="text/javascript" src="/js/index.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/ARK_logo.svg" alt=""/><h2 class="headerTitleWithLogo"></h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>R3</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">R3</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/R3-START">R3-START</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-API">R3 API</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-RoutePolicy">R3 Route Policy</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-customPage-configuration-rules">R3 CustomPage Configuration Rules</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-CustomTabPolicy">R3 CustomTab Policy</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-Form-Config">R3 Form Config</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-System-Configuration-URL-JumpRules">R3 System Configuration URL JumpRules</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-Store">R3 Store</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-Extention-Config">Extention Configuration</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">R3-START</h1></header><article><div><span><!-- ---
+id: R3-START
+title: 介绍
+sidebar_label: R3 START
+---
+<h2><a class="anchor" aria-hidden="true" id="r3js-是什么"></a><a href="#r3js-是什么" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>R3.js 是什么？</h2>
+<pre><code class="hljs">R3.js是一套用于构建用户界面的简单易用的单应用构造器
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="起步"></a><a href="#起步" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>起步</h2>
+<pre><code class="hljs">官方指南假设你已了解关于 HTML、CSS 和 JavaScript 的中级知识以及已经熟练使用vue.js框架。如果你刚开始学习前端开发，可能需要你将框架作为你的第一步可能不是最好的主意——掌握好基础知识再来吧！之前有其它框架的使用经验会有帮助，但这不是必需的。
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="3"></a><a href="#3" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3</h2>
+<h2><a class="anchor" aria-hidden="true" id="4"></a><a href="#4" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4</h2>
+<h2><a class="anchor" aria-hidden="true" id="5"></a><a href="#5" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5 --&gt;</h2>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/R3-API"><span>R3 API</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#r3js-是什么">R3.js 是什么？</a></li><li><a href="#起步">起步</a></li><li><a href="#3">3</a></li><li><a href="#4">4</a></li><li><a href="#5">5 --&gt;</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>相关资源</h5><div class="contentResourse"><a href="/docs/ARK-Share">ARK Share</a><div>- 前端组件资源共享平台</div></div><div class="contentResourse"><a href="/docs/ARK-CLI">Ark Cli</a><div>- 前端开发工具</div></div><div class="contentResourse"><a href="/docs/ARK-DingTalk">ARK Dingtalk</a><div>- 基于钉钉E应用的移动端组件库</div></div><div class="contentResourse"><a href="/docs/ARK-Design">ARK Design</a><div>- 服务于企业级产品的设计语言</div></div></div><div class="zujianshijian"><h5>应用项目</h5><a href="/docs/R3-API">Burgeon R3</a><a href="/docs/JFlowPlugin-Version">JFlow</a></div><div class="moreInformation"><h5>更多信息</h5><a>Copyright © 2020 syman reserved.</a></div><div class="moreInformation"><h5>友情链接</h5><a href="https://www.ickd.cn/" target="_blank">快递查询</a></div></section></footer></div></body></html>
