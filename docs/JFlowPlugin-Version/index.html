@@ -55,34 +55,40 @@
               }
             });
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">JFlowPlugin Version</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="introduce"></a><a href="#introduce" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduce</h2>
-<p>JlofwPlugin是打通中台业务系统以及Jflow流程控制系统的插件，能够在Jlofw后台配置系统中配置流程图,在中台业务系统中进行流程控制。JflowPlugin是基于R3业务系统开发，目前JflowPlugin基本R3业务系统区分了1.3版本和1.4版本</p>
-<h3><a class="anchor" aria-hidden="true" id="13版本"></a><a href="#13版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.3版本</h3>
-<pre><code class="hljs">$ npm <span class="hljs-keyword">install</span> jflow-<span class="hljs-keyword">plugin</span> <span class="hljs-comment">--save</span>
-</code></pre>
-<pre><code class="hljs"><span class="hljs-keyword">import</span> jflowplugin,{components} <span class="hljs-keyword">from</span> <span class="hljs-string">'jflow_plugin'</span>
-Vue.use(jflowplugin, {
-    router,
-    axios,
-    store,
-    jflowIp: <span class="hljs-string">''</span>,  <span class="hljs-comment">//jflow后台地址</span>
-    showTab: <span class="hljs-keyword">false</span>   <span class="hljs-comment">//是否启用自定义待办列表(默认采用弹窗形式展示)</span>
-  });
+<p>JlofwPlugin是为了打通中台业务系统以及Jflow流程控制系统的插件，能够在Jflow后台配置系统中配置流程图以及流程规则,在中台业务系统中进行流程控制。JflowPlugin是基于R3业务系统开发，只限于在中台项目中使用</p>
+<h3><a class="anchor" aria-hidden="true" id="14版本"></a><a href="#14版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.4版本</h3>
+<pre><code class="hljs">$ <span class="hljs-built_in">npm</span> install @syman/jflow-plugin --save
+
+
+<span class="hljs-keyword">import</span> jflowPlugin <span class="hljs-keyword">from</span> <span class="hljs-string">'@syman/jflow-plugin'</span>;
+
+Vue.use(jflowPlugin, {
+  changePattern: <span class="hljs-literal">true</span>, <span class="hljs-regexp">//</span> 控制待办列表转派的选择模式 <span class="hljs-literal">true</span>为单选,<span class="hljs-literal">false</span>为多选
+  gateway: <span class="hljs-literal">null</span>
+});
 
 </code></pre>
-<p>components待办列表实例，支持只定义待办列表</p>
-<h3><a class="anchor" aria-hidden="true" id="14版本"></a><a href="#14版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.4版本</h3>
-<pre><code class="hljs">$ npm <span class="hljs-keyword">install </span><span class="hljs-keyword">burgeon-r3 </span>--save
-</code></pre>
-<p>BurgeonR3的配置项中配置jflow:</p>
+<p>配置项:</p>
 <table>
 <thead>
 <tr><th>Param</th><th>Type</th><th>Description</th><th>Default Value</th></tr>
 </thead>
 <tbody>
-<tr><td>enableJflow</td><td>Boolean</td><td>是否启用JFlow插件</td><td>false</td></tr>
-<tr><td>jflowRequestDomain</td><td>String</td><td>JFlow后台地址</td><td></td></tr>
-<tr><td>showTab</td><td>Boolean</td><td>是否启用自定义待办列表</td><td>false</td></tr>
+<tr><td>changePattern</td><td>Boolean</td><td>控制待办列表转派的选择模式</td><td>true</td></tr>
+<tr><td>gateway</td><td>String</td><td>jflow网关地址</td><td>-</td></tr>
+<tr><td>components</td><td>Object</td><td>组件的自定义,支持对统一，驳回，转派，人工干预进行自定义组件.{Argee,Back,Delegate,Intervention}组件名固定</td><td>-</td></tr>
 </tbody>
 </table>
-<p>详情请看<a href="R3-API#r3launchapplication">R3.launchApplication</a></p>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/JFlowPlugin-Configuration"><span class="function-name-prevnext">JFlowPlugin Configuration</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#introduce">Introduce</a><ul class="toc-headings"><li><a href="#13版本">1.3版本</a></li><li><a href="#14版本">1.4版本</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>相关资源</h5><div class="contentResourse"><a href="/docs/ARK-Share">ARK Share</a><div>- 前端组件资源共享平台</div></div><div class="contentResourse"><a href="/docs/ARK-CLI">Ark Cli</a><div>- 前端开发工具</div></div><div class="contentResourse"><a href="/docs/ARK-DingTalk">ARK Dingtalk</a><div>- 基于钉钉E应用的移动端组件库</div></div><div class="contentResourse"><a href="/docs/ARK-Design">ARK Design</a><div>- 服务于企业级产品的设计语言</div></div></div><div class="zujianshijian"><h5>应用项目</h5><a href="/docs/R3-API">Burgeon R3</a><a href="/docs/JFlowPlugin-Version">JFlow</a></div><div class="moreInformation"><h5>更多信息</h5><a>Copyright © 2020 syman reserved.</a></div><div class="moreInformation"><h5>友情链接</h5><a href="https://www.ickd.cn/" target="_blank">快递查询</a></div></section></footer></div></body></html>
+<p>挂载方法:</p>
+<table>
+<thead>
+<tr><th>Name</th><th>Params</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>initiateLaunch</td><td>参数为jflow项目launch接口参数格式</td><td>发起流程方法</td></tr>
+<tr><td>jflowRefresh</td><td>-</td><td>刷新当前界面</td></tr>
+<tr><td>BacklogData</td><td>-</td><td>刷新待办数字</td></tr>
+<tr><td>components</td><td>-</td><td>获取待办列表组件</td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/JFlowPlugin-Configuration"><span class="function-name-prevnext">JFlowPlugin Configuration</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#introduce">Introduce</a><ul class="toc-headings"><li><a href="#14版本">1.4版本</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>相关资源</h5><div class="contentResourse"><a href="/docs/ARK-Share">ARK Share</a><div>- 前端组件资源共享平台</div></div><div class="contentResourse"><a href="/docs/ARK-CLI">Ark Cli</a><div>- 前端开发工具</div></div><div class="contentResourse"><a href="/docs/ARK-DingTalk">ARK Dingtalk</a><div>- 基于钉钉E应用的移动端组件库</div></div><div class="contentResourse"><a href="/docs/ARK-Design">ARK Design</a><div>- 服务于企业级产品的设计语言</div></div></div><div class="zujianshijian"><h5>应用项目</h5><a href="/docs/R3-API">Burgeon R3</a><a href="/docs/JFlowPlugin-Version">JFlow</a></div><div class="moreInformation"><h5>更多信息</h5><a>Copyright © 2020 syman reserved.</a></div><div class="moreInformation"><h5>友情链接</h5><a href="https://www.ickd.cn/" target="_blank">快递查询</a></div></section></footer></div></body></html>

@@ -134,6 +134,8 @@ R3.launchApplication({
 <tr><td>touristRoute</td><td>String</td><td>未登录状态下的“游客”路由</td><td></td><td>/login</td></tr>
 <tr><td>enableInitializationRequest</td><td>Boolean</td><td>是否启用初始化请求</td><td></td><td>true</td></tr>
 <tr><td>customizeWaterMark</td><td>Object</td><td>是否启用自定义水印</td><td></td><td>{}</td></tr>
+<tr><td>mock</td><td>Boolean</td><td>是否启用mock模式</td><td></td><td>{}</td></tr>
+<tr><td>requestPenddingExpire</td><td>Number</td><td>防爆力请求时间，默认为1秒</td><td></td><td>1000*1</td></tr>
 </tbody>
 </table>
 <h3><a class="anchor" aria-hidden="true" id="r3urlsearchparams"></a><a href="#r3urlsearchparams" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>R3.urlSearchParams</h3>
@@ -288,6 +290,24 @@ R3.launchApplication({
              <span class="hljs-comment">// linkId:外链界面ID,</span>
              <span class="hljs-comment">// label：中文tab名称，</span>
              <span class="hljs-comment">// url:固定格式url（按照框架路由规则拼接好的）,</span>
+             <span class="hljs-comment">// isSetQuery:可设置目标界面为标准列表界面的表单默认值（只支持设置标准列表界面）</span>
+             <span class="hljs-comment">// queryData：设置目标界面表单默认值数据（isSetQuery必须设置为true）</span>
+                  queryData数据格式说明：   queryData = {
+                                   tableId: <span class="hljs-string">'992'</span>,<span class="hljs-comment">//目标表ID</span>
+                                   values: [<span class="hljs-comment">//设置默认值的字段</span>
+                                     {
+                                       display: <span class="hljs-string">'OBJ_FK'</span>,<span class="hljs-comment">//设置的字段类型</span>
+                                       colid: <span class="hljs-string">'99525'</span>,设置的字段colid
+                                       defaultValue: <span class="hljs-string">'元数据'</span>,设置的字段默认值
+                                       refobjid: <span class="hljs-string">'666666'</span><span class="hljs-comment">//如果设置的字段的display为OBJ_FK（外键类型），则必须设置refobjid，refobjid会作为查询参数</span>
+                                     }, {
+                                       display: <span class="hljs-string">'OBJ_FK'</span>,
+                                       colid: <span class="hljs-string">'99484'</span>,
+                                       defaultValue: <span class="hljs-string">'表'</span>,
+                                       refobjid: <span class="hljs-string">'888888'</span>
+                                     }
+                                   ]
+                                 };
          });
    参数说明：
           注：跳转的表存在在菜单中
@@ -303,11 +323,15 @@ R3.launchApplication({
              单对象上下结构： 
                    <span class="hljs-keyword">type</span>: <span class="hljs-string">'tableDetailVertical'</span>||<span class="hljs-string">'V'</span>,
                    tableName,
-                   tableId
+                   tableId,
+                   id:明细ID,
+
               左右结构单对象界面:
                    <span class="hljs-keyword">type</span>:<span class="hljs-string">'tableDetailHorizontal'</span>||<span class="hljs-string">'H'</span>,
                    tableName,
-                   tableId
+                   tableId,
+                   id:明细ID,
+
               自定义界面:
                      <span class="hljs-keyword">type</span> : <span class="hljs-string">'tableDetailAction'</span>||<span class="hljs-string">'C'</span>,
                      label,
@@ -322,15 +346,28 @@ R3.launchApplication({
                  url
                 
            })
-            <span class="hljs-keyword">const</span> <span class="hljs-keyword">type</span> = <span class="hljs-string">'tableDetailVertical'</span>;
-           <span class="hljs-keyword">const</span> tab = {
-             <span class="hljs-keyword">type</span>,
-             tableName: colDef.customerurl.reftablename,
-             tableId,
-             label: colDef.customerurl.reftabdesc,
-             id: rowData[colDef.customerurl.refobjid].val
-           };
-           <span class="hljs-keyword">this</span>.tabOpen(tab);
+         如果你有自定义界面跳转某一个单对象界面，单对象界面的返回按钮需要回到来源自定义界面时，可使用以下方法：
+          R3.store.commit(<span class="hljs-string">'global/tabOpen'</span>, {
+              单对象上下结构： 
+                   <span class="hljs-keyword">type</span>: <span class="hljs-string">'tableDetailVertical'</span>||<span class="hljs-string">'V'</span>,
+                   tableName,
+                   tableId,
+                   id:明细ID,
+                   dynamicRoutingForCustomizePage: <span class="hljs-literal">true</span>
+
+              左右结构单对象界面:
+                   <span class="hljs-keyword">type</span>:<span class="hljs-string">'tableDetailHorizontal'</span>||<span class="hljs-string">'H'</span>,
+                   tableName,
+                   tableId,
+                   id:明细ID,
+                   dynamicRoutingForCustomizePage: <span class="hljs-literal">true</span>
+
+        或者你可以直接拿到你要跳转的单对象的url,如：<span class="hljs-string">'/SYSTEM/TABLE_DETAIL/H/AD_TABLE/992/24407'</span>，你也可以直接传入以下参数：
+             url: <span class="hljs-string">'/SYSTEM/TABLE_DETAIL/H/AD_TABLE/992/24407'</span>/或者 <span class="hljs-string">'/SYSTEM/TABLE_DETAIL/V/AD_TABLE/992/24407'</span>,
+             <span class="hljs-keyword">type</span>: <span class="hljs-string">'H'</span>或者<span class="hljs-string">'v'</span>,<span class="hljs-comment">//H:单对象左右结构，V:单对象上下结构</span>
+             dynamicRoutingForCustomizePage: <span class="hljs-literal">true</span>
+          })
+         
    
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="单对象界面左右结构第一个tab支持配置自定义界面"></a><a href="#单对象界面左右结构第一个tab支持配置自定义界面" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>单对象界面左右结构第一个Tab支持配置自定义界面</h3>
@@ -344,10 +381,25 @@ R3.launchApplication({
    
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="自定义弹出框相关说明"></a><a href="#自定义弹出框相关说明" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>自定义弹出框相关说明</h3>
-<pre><code class="hljs"> <span class="hljs-number">1</span>.确定：  <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-literal">true</span>); <span class="hljs-comment">// 关闭弹框</span>
- <span class="hljs-number">2</span>.取消：  <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// 关闭弹框</span>
+<pre><code class="hljs"> <span class="hljs-number">1.</span>确定按钮：  <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-literal">true</span>); <span class="hljs-comment">// 关闭弹框，参数传入true时，会根据元数据配置执行逻辑；</span>
+ <span class="hljs-number">2.</span>取消按钮：  <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// 关闭弹框，参数为false时，则直接关闭弹框；</span>
 
+ prop:{
+     idArray: {<span class="hljs-comment">// 可获取明细表勾选的明细ID</span>
+       <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">Array</span>, <span class="hljs-built_in">Object</span>],
+       <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
+     },
+     objTabActionDialogConfig: {<span class="hljs-comment">// 当前自定义按钮元数据配置信息</span>
+       <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">Object</span>],
+       <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
+     },
+     popwinMessage: {<span class="hljs-comment">// 获取标准列表界面表格配置popwin类型字段配置的refobjid</span>
+       <span class="hljs-keyword">type</span>: <span class="hljs-built_in">Object</span>,
+       <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
+     },
+ }
 
+    
    
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="框架内置自定义界面支持配置requesturl"></a><a href="#框架内置自定义界面支持配置requesturl" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>框架内置自定义界面支持配置requestUrl</h3>
@@ -358,9 +410,11 @@ R3.launchApplication({
 
 })
 
-
-
-
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="自定义界面调用框架收藏与取消收藏功能"></a><a href="#自定义界面调用框架收藏与取消收藏功能" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>自定义界面调用框架收藏与取消收藏功能</h3>
+<pre><code class="hljs"><span class="hljs-keyword">import</span> R3 <span class="hljs-keyword">from</span> <span class="hljs-string">'burgeon-r3'</span>;
+      <span class="hljs-keyword">const</span> {store } = R3;
+ store.commit(<span class="hljs-string">'global/updateFavoriteData'</span>,收藏接口返回的数据/取消收藏返回的数据);
 
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="配置树结构列表界面相关说明"></a><a href="#配置树结构列表界面相关说明" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>配置树结构列表界面相关说明</h3>
@@ -443,4 +497,275 @@ R3.launchApplication({
 
        
 </span></code></pre>
-</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/R3-START"><span class="arrow-prev">← </span><span>R3 START</span></a><a class="docs-next button" href="/docs/R3-RoutePolicy"><span>R3 Route Policy</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#install">Install</a></li><li><a href="#usage-example">Usage Example</a></li><li><a href="#methods">Methods</a><ul class="toc-headings"><li><a href="#r3launchapplication">R3.launchApplication</a></li><li><a href="#r3urlsearchparams">R3.urlSearchParams</a></li><li><a href="#r3getmodulename">R3.getModuleName</a></li><li><a href="#r3menuclick">R3.menuClick</a></li></ul></li><li><a href="#properties">Properties</a><ul class="toc-headings"><li><a href="#r3network">R3.network</a></li><li><a href="#r3components">R3.components</a></li><li><a href="#r3store">R3.store</a></li><li><a href="#r3config">R3.config</a></li><li><a href="#customizewatermark">customizeWaterMark</a></li><li><a href="#获取每张表对应的信息">获取每张表对应的信息</a></li><li><a href="#单对象界面和列表界面提交-动作定义静默类型接口请求时-需要处理的逻辑">单对象界面和列表界面提交/动作定义静默类型接口请求时，需要处理的逻辑</a></li><li><a href="#路由跳转-tabopen">路由跳转  tabOpen</a></li><li><a href="#单对象界面左右结构第一个tab支持配置自定义界面">单对象界面左右结构第一个Tab支持配置自定义界面</a></li><li><a href="#自定义弹出框相关说明">自定义弹出框相关说明</a></li><li><a href="#框架内置自定义界面支持配置requesturl">框架内置自定义界面支持配置requestUrl</a></li><li><a href="#配置树结构列表界面相关说明">配置树结构列表界面相关说明</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>相关资源</h5><div class="contentResourse"><a href="/docs/ARK-Share">ARK Share</a><div>- 前端组件资源共享平台</div></div><div class="contentResourse"><a href="/docs/ARK-CLI">Ark Cli</a><div>- 前端开发工具</div></div><div class="contentResourse"><a href="/docs/ARK-DingTalk">ARK Dingtalk</a><div>- 基于钉钉E应用的移动端组件库</div></div><div class="contentResourse"><a href="/docs/ARK-Design">ARK Design</a><div>- 服务于企业级产品的设计语言</div></div></div><div class="zujianshijian"><h5>应用项目</h5><a href="/docs/R3-API">Burgeon R3</a><a href="/docs/JFlowPlugin-Version">JFlow</a></div><div class="moreInformation"><h5>更多信息</h5><a>Copyright © 2020 syman reserved.</a></div><div class="moreInformation"><h5>友情链接</h5><a href="https://www.ickd.cn/" target="_blank">快递查询</a></div></section></footer></div></body></html>
+<p>###标准列表界面明细表格配置说明</p>
+<pre><code class="hljs">配置链接型字段：customerurl
+customerurl.objdistype可配置<span class="hljs-number">4</span>种类型
+popwin：自定义弹窗
+     必须配置字段：
+<span class="hljs-symbol">                 objdistype:</span> <span class="hljs-string">"popwin"</span>  类型
+<span class="hljs-symbol">                 refobjid:</span> <span class="hljs-string">"ID,ECODE"</span>  将会解析ID,ECODE所对应的值，传入弹出框作为props参数，
+<span class="hljs-symbol">                 reftabdesc:</span> <span class="hljs-string">"测试"</span>     弹出框title
+<span class="hljs-symbol">                 tableurl:</span> <span class="hljs-string">"clonePopUp"</span>  弹出框引入的组件名
+
+tabpanle：单对象左右结构  object：单对象上下结构
+     必须配置字段：
+<span class="hljs-symbol">                objdistype:</span> <span class="hljs-string">"object"</span>       类型
+<span class="hljs-symbol">                refobjid:</span> <span class="hljs-string">"ID"</span>             用作单对象明细ID的字段，将会解析此字段用作明细ID
+<span class="hljs-symbol">                reftabdesc:</span> <span class="hljs-string">"采购编辑"</span>      目标单对象tab名称
+<span class="hljs-symbol">                reftableid:</span> <span class="hljs-string">"23792"</span>        目标单对象主表ID
+<span class="hljs-symbol">                reftablename:</span> <span class="hljs-string">"DL_B_PUR"</span>   目标单对象主表表名
+
+
+
+customized：自定义界面
+     必须配置字段：
+<span class="hljs-symbol">                objdistype:</span> <span class="hljs-string">"customized"</span> 类型
+<span class="hljs-symbol">                refobjid:</span> <span class="hljs-string">"ID,ENAME"</span>     将会解析ID,ECODE所对应的值，存入sessionStorage,
+<span class="hljs-symbol">                          
+                reftabdesc:</span> <span class="hljs-string">"测试"</span>
+<span class="hljs-symbol">                reftableid:</span> <span class="hljs-number">2097</span>
+<span class="hljs-symbol">                reftablename:</span> <span class="hljs-string">""</span>
+<span class="hljs-symbol">                tableurl:</span> <span class="hljs-string">"CUSTOMIZED/functionPermission"</span>
+link：外链界面
+<span class="hljs-symbol">                objdistype:</span> <span class="hljs-string">"link"</span>       类型
+<span class="hljs-symbol">                linkname:</span> <span class="hljs-string">"hello"</span>        外链界面name:用于拼接路由
+<span class="hljs-symbol">                refobjid:</span> <span class="hljs-string">"ID"</span>           用作外链ID的字段，将会解析此字段用作外链ID:用于拼接路由
+<span class="hljs-symbol">                reftabdesc:</span> <span class="hljs-string">"测试外链"</span>    外链界面tab名
+<span class="hljs-symbol">                tableurl:</span> <span class="hljs-string">"http://123:8001/page/targetDetail.html"</span>   外链界面地址
+
+  跳转后的路由格式：http:<span class="hljs-comment">//0.0.0.0:8193/LINK/HELLO/2</span>
+
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="定制界面跳转到定制界面以及外链界面提供的参数customizemessage"></a><a href="#定制界面跳转到定制界面以及外链界面提供的参数customizemessage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>定制界面跳转到定制界面以及外链界面提供的参数customizeMessage</h3>
+<pre><code class="hljs"><span class="hljs-string">可通过查看sessionStorage的数据</span>
+<span class="hljs-attr">customizeMessage:</span><span class="hljs-string">{</span>
+<span class="hljs-attr">  Id:</span> <span class="hljs-string">{</span>
+<span class="hljs-attr">          type:</span> <span class="hljs-string">{</span>
+               <span class="hljs-string">data</span>
+              <span class="hljs-string">&lt;!--</span> <span class="hljs-attr">ENAME:</span> <span class="hljs-string">"希曼小店02"</span><span class="hljs-string">,</span> <span class="hljs-attr">ID:</span> <span class="hljs-string">"2"</span> <span class="hljs-bullet">--&gt;</span>
+          <span class="hljs-string">}</span>
+  <span class="hljs-string">}</span>
+<span class="hljs-string">}</span>
+
+<span class="hljs-attr">Id:</span><span class="hljs-string">定制界面Id或者外链界面Id,可通过路由获取</span> 
+<span class="hljs-attr">    eg:</span>  <span class="hljs-attr">http://123:8193/CUSTOMIZED/FUNCTIONPERMISSION/2097</span>
+    <span class="hljs-string">如以上路由Id则为2097</span>
+
+<span class="hljs-string">type：</span>
+  <span class="hljs-string">列表界面</span>
+<span class="hljs-attr">    standardCustomerurlCustomized:</span><span class="hljs-string">标准列表界面明细表格配置的链接型字段：customerurl跳转定制界面</span> <span class="hljs-attr">data:配置的refobjid</span>
+<span class="hljs-attr">    standardCustomerurlLink:</span><span class="hljs-string">标准列表界面明细表格配置的链接型字段:customerurl跳转外链界面</span>  <span class="hljs-attr">data:当前明细全部信息</span>
+    <span class="hljs-string">standardCustomizeButton：标准列表界面navbar类型自定义按钮：跳转定制界面</span> <span class="hljs-attr">data:当前按钮的元数据配置信息</span>
+<span class="hljs-attr">    standardCustomizeButtonLink:</span><span class="hljs-string">：标准列表界面navbar类型自定义按钮:跳转外链界面</span> <span class="hljs-attr">data:当前按钮的元数据配置信息</span>
+<span class="hljs-attr">    standardTableurlCustomized:</span><span class="hljs-string">标准列表界面网页链接类型：tableurl跳转</span>   <span class="hljs-attr">data:当前明细全部信息</span>
+  <span class="hljs-string">单对象界面</span>
+<span class="hljs-attr">    singleCustomizeButtonLink:</span><span class="hljs-string">单对象界面navbar类型自定义按钮：跳转外链界面</span>  <span class="hljs-attr">data:当前按钮的元数据配置信息</span>
+<span class="hljs-attr">    singleCustomizeButton:</span><span class="hljs-string">单对象界面navbar类型自定义按钮：跳转定制界面</span>  <span class="hljs-attr">data:当前按钮的元数据配置信息</span>
+<span class="hljs-attr">    singleCustomerurlCustomized:</span><span class="hljs-string">单对象界面明细表格配置的链接型字段：customerurl跳转定制界面</span> <span class="hljs-attr">data:配置的refobjid</span>
+<span class="hljs-attr">    singleCustomerurlLink:</span><span class="hljs-string">单对象界面明细表格配置的链接型字段:customerurl跳转外链界面</span>  <span class="hljs-attr">data:当前明细全部信息</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="components"></a><a href="#components" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>components</h2>
+<p>框架会抛出一些组件供外部使用</p>
+<h4><a class="anchor" aria-hidden="true" id="调用方式-usage-example"></a><a href="#调用方式-usage-example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>调用方式 Usage Example：</h4>
+<pre><code class="hljs"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">DownComponent</span> <span class="hljs-attr">:searchFoldnum</span>=<span class="hljs-string">"3"</span> <span class="hljs-attr">:rowAll</span>=<span class="hljs-string">"screenConditionData.length"</span> <span class="hljs-attr">:setHeight</span>=<span class="hljs-string">"34"</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">DownComponent</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">import</span> R3 <span class="hljs-keyword">from</span> <span class="hljs-string">'burgeon-r3'</span>;
+
+  <span class="hljs-keyword">const</span> </span></span><span class="hljs-template-variable">{  components }</span><span class="xml"><span class="javascript"> = R3;
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> </span></span><span class="hljs-template-variable">{
+    components: {
+      DownComponent: components.DownComponent
+    }</span><span class="xml">,
+  };
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+
+
+</span></code></pre>
+<h3><a class="anchor" aria-hidden="true" id="r3components-1"></a><a href="#r3components-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>R3.components</h3>
+<pre><code class="hljs">WaterMark:水印组件
+
+ &lt;WaterMark
+    :text=&quot;waterMarkText&quot;
+    :color=&quot;waterMarkColor&quot;
+  /&gt;
+  参数说明：
+    props: {
+                color: {//水印颜色
+                  type: String,
+                  default: 'red'
+                },
+                text: {//水印文字
+                  type: String,
+                  default: '文字'
+                }
+              }
+
+Docfile:文件上传组件
+
+  &lt;Docfile
+    :item-webconf=&quot;_items.props.webconf&quot;
+    :web-conf-single=&quot;webConfSingle&quot;
+    :dataitem=&quot;_items.props.itemdata&quot;
+    @filechange=&quot;filechange&quot;
+  /&gt;   
+  参数说明：
+    props: {
+      draggingTag: {// 拖拽group属性标示，如果当前界面多次使用了当前组件，需保持标示唯一性
+        type: String,
+        default: () =&gt; {
+          if (this &amp;&amp; this.dataitem &amp;&amp; this.dataitem.colname) {
+            return this.dataitem.colname;
+          }
+          return toString(new Date().getTime());
+        }
+      },
+      accept: { // 文件上传格式控制
+        type: String,
+        default: '*'
+      }
+}, 
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="框架派发的事件"></a><a href="#框架派发的事件" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>框架派发的事件</h2>
+<h3><a class="anchor" aria-hidden="true" id="单对象界面"></a><a href="#单对象界面" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>单对象界面</h3>
+<pre><code class="hljs">        <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'objTabAction'</span>,执行方法);<span class="hljs-comment">//自定义类型按钮触发时派发的事件</span>
+            参数： <span class="hljs-selector-tag">detail</span>: {
+              <span class="hljs-attribute">data</span>: obj<span class="hljs-comment">//自定义按钮元数据配置信息</span>
+            }
+        <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'exeActionSuccessForR3'</span>,执行方法);<span class="hljs-comment">//动作定义静默执行成功后，点击弹出执行成功提示框的确定按钮派发的事件</span>
+            参数：  <span class="hljs-selector-tag">detail</span>: {
+                    <span class="hljs-attribute">name</span>: <span class="hljs-string">'exeAction'</span>,
+                    url,
+                    res,
+                    <span class="hljs-attribute">moduleName</span>: this[MODULE_COMPONENT_NAME],
+                    <span class="hljs-attribute">routeQuery</span>: this[INSTANCE_ROUTE_QUERY],
+                    <span class="hljs-attribute">tableName</span>: this[INSTANCE_ROUTE_QUERY].tableName,
+                    <span class="hljs-attribute">routePath</span>: this[INSTANCE_ROUTE]
+                  }
+        <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'customizeClick'</span>,执行方法);<span class="hljs-comment">//删除，保存，刷新按钮触发时派发的事件，根据不同type类型区分</span>
+            参数：
+           <span class="hljs-selector-tag">1</span>. 删除按钮触发时派发的事件
+             <span class="hljs-selector-tag">detail</span>: {
+               <span class="hljs-attribute">type</span>: <span class="hljs-string">'delete'</span>删除按钮触发时派发的事件
+            }
+
+           <span class="hljs-selector-tag">2</span>. 保存成功后按钮触发时派发的事件(保存接口成功)
+             <span class="hljs-selector-tag">detail</span>: {
+                <span class="hljs-attribute">type</span>: <span class="hljs-string">'save'</span>, <span class="hljs-comment">// 类型为保存成功</span>
+                <span class="hljs-attribute">mainTableParame</span>: this.currentParameter, <span class="hljs-comment">// 保存接口主表参数</span>
+                <span class="hljs-attribute">itemTableParame</span>: this.itemCurrentParameter, <span class="hljs-comment">// 保存接口子表参数</span>
+                res, <span class="hljs-comment">// 接口返回res</span>
+              }
+          <span class="hljs-selector-tag">3</span>.保存按钮触发时派发的事件(主表未修改值，不会调保存接口)
+             <span class="hljs-selector-tag">detail</span>: {
+                  <span class="hljs-attribute">type</span>: <span class="hljs-string">'save'</span>,
+              }
+
+       注⚠️：<span class="hljs-selector-tag">2</span>和<span class="hljs-selector-tag">3</span>只有返回的参数不同
+          
+        <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'objTabActionSlientForItemTable'</span>,执行方法);<span class="hljs-comment">//保存失败时派发的事件</span>
+            参数： 
+            <span class="hljs-selector-tag">detail</span>: {
+              <span class="hljs-attribute">type</span>: <span class="hljs-string">'reject'</span>,
+            }
+
+        <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'tabRefreshClick'</span>,执行方法);<span class="hljs-comment">//刷新按钮触发时派发的事件</span>
+            参数：无参数
+
+
+
+        <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'tabClick'</span>,执行方法);<span class="hljs-comment">//表内tab切换派发的事件</span>
+            参数： 
+             <span class="hljs-selector-tag">detail</span>: {
+                <span class="hljs-selector-tag">data</span>,<span class="hljs-comment">//当前tab信息</span>
+                <span class="hljs-selector-tag">index</span><span class="hljs-comment">//当前tab索引</span>
+              }
+
+        <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'tabClick'</span>,执行方法);<span class="hljs-comment">//主表加载成功后派发的事件</span>
+            参数： 
+             <span class="hljs-selector-tag">detail</span>: {
+                <span class="hljs-attribute">detail</span>: {
+                  <span class="hljs-attribute">data</span>: resData<span class="hljs-comment">//当前表元数据配置信息</span>
+                }
+              }
+
+
+        <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'tabClick'</span>,执行方法);<span class="hljs-comment">//左右结构提交成功后派发的事件</span>
+            参数： 
+            <span class="hljs-selector-tag">detail</span>: {
+              <span class="hljs-attribute">name</span>: <span class="hljs-string">'exeAction'</span>,
+              url,
+              res,
+              <span class="hljs-attribute">type</span>: <span class="hljs-string">'horizontalTable/verticalTable'</span>,<span class="hljs-comment">//当前表的结构horizontalTable为左右结构，verticalTable为上下结构</span>
+              moduleName,
+              routeQuery,
+              <span class="hljs-attribute">tableName</span>: routeQuery.tableName,
+              routePath
+            }
+
+          <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'exeActionForR3'</span>,执行方法);<span class="hljs-comment">//动作定义静默执行成功后派发的事件</span>
+            参数： 
+             <span class="hljs-selector-tag">detail</span>: {
+              <span class="hljs-attribute">name</span>: <span class="hljs-string">'exeAction'</span>,
+              <span class="hljs-attribute">type</span>: <span class="hljs-string">'horizontalTable/verticalTable'</span>,<span class="hljs-comment">//当前表的结构horizontalTable为左右结构，verticalTable为上下结构</span>
+              url,
+              res,
+              moduleName,
+              routeQuery,
+              <span class="hljs-attribute">tableName</span>: routeQuery.tableName,
+              routePath
+            }
+
+
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="标准列表界面"></a><a href="#标准列表界面" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>标准列表界面</h3>
+<pre><code class="hljs">
+       
+          <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'exeActionSuccessForR3'</span>,执行方法);<span class="hljs-comment">//动作定义静默执行成功后，点击弹出执行成功提示框的确定按钮派发的事件</span>
+            参数：  
+                  <span class="hljs-selector-tag">detail</span>: {
+                    <span class="hljs-attribute">name</span>: <span class="hljs-string">'exeAction'</span>,
+                    url,
+                    res,
+                    <span class="hljs-attribute">moduleName</span>: this[MODULE_COMPONENT_NAME],
+                    <span class="hljs-attribute">routeQuery</span>: this[INSTANCE_ROUTE_QUERY],
+                    <span class="hljs-attribute">tableName</span>: this[INSTANCE_ROUTE_QUERY].tableName,
+                    <span class="hljs-attribute">routePath</span>: this[INSTANCE_ROUTE]
+                  }
+
+         <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'tabClick'</span>,执行方法);<span class="hljs-comment">//提交成功后派发的事件</span>
+            参数： 
+            <span class="hljs-selector-tag">detail</span>: {
+                <span class="hljs-attribute">name</span>: <span class="hljs-string">'exeAction'</span>,
+                <span class="hljs-attribute">type</span>: <span class="hljs-string">'standardTable'</span>,
+                <span class="hljs-attribute">url</span>: url || <span class="hljs-string">'/p/cs/batchSubmit'</span>,
+                res,
+                moduleName,
+                routeQuery,
+                <span class="hljs-attribute">tableName</span>: routeQuery.tableName,
+                routePath
+              }
+            });
+
+          <span class="hljs-selector-tag">window</span><span class="hljs-selector-class">.addEventListener</span>(<span class="hljs-string">'exeActionForR3'</span>,执行方法);<span class="hljs-comment">//动作定义静默执行成功后派发的事件</span>
+            参数： 
+              <span class="hljs-selector-tag">detail</span>: {
+                <span class="hljs-attribute">name</span>: <span class="hljs-string">'exeAction'</span>,
+                <span class="hljs-attribute">type</span>: <span class="hljs-string">'standardTable'</span>,
+                <span class="hljs-attribute">url</span>: actionName || <span class="hljs-string">'/p/cs/exeAction'</span>,
+                res,
+                moduleName,
+                routeQuery,
+                <span class="hljs-attribute">tableName</span>: routeQuery.tableName,
+                routePath
+              }
+
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/R3-START"><span class="arrow-prev">← </span><span>R3 START</span></a><a class="docs-next button" href="/docs/R3-RoutePolicy"><span>R3 Route Policy</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#install">Install</a></li><li><a href="#usage-example">Usage Example</a></li><li><a href="#methods">Methods</a><ul class="toc-headings"><li><a href="#r3launchapplication">R3.launchApplication</a></li><li><a href="#r3urlsearchparams">R3.urlSearchParams</a></li><li><a href="#r3getmodulename">R3.getModuleName</a></li><li><a href="#r3menuclick">R3.menuClick</a></li></ul></li><li><a href="#properties">Properties</a><ul class="toc-headings"><li><a href="#r3network">R3.network</a></li><li><a href="#r3components">R3.components</a></li><li><a href="#r3store">R3.store</a></li><li><a href="#r3config">R3.config</a></li><li><a href="#customizewatermark">customizeWaterMark</a></li><li><a href="#获取每张表对应的信息">获取每张表对应的信息</a></li><li><a href="#单对象界面和列表界面提交-动作定义静默类型接口请求时-需要处理的逻辑">单对象界面和列表界面提交/动作定义静默类型接口请求时，需要处理的逻辑</a></li><li><a href="#路由跳转-tabopen">路由跳转  tabOpen</a></li><li><a href="#单对象界面左右结构第一个tab支持配置自定义界面">单对象界面左右结构第一个Tab支持配置自定义界面</a></li><li><a href="#自定义弹出框相关说明">自定义弹出框相关说明</a></li><li><a href="#框架内置自定义界面支持配置requesturl">框架内置自定义界面支持配置requestUrl</a></li><li><a href="#自定义界面调用框架收藏与取消收藏功能">自定义界面调用框架收藏与取消收藏功能</a></li><li><a href="#配置树结构列表界面相关说明">配置树结构列表界面相关说明</a></li><li><a href="#定制界面跳转到定制界面以及外链界面提供的参数customizemessage">定制界面跳转到定制界面以及外链界面提供的参数customizeMessage</a></li></ul></li><li><a href="#components">components</a><ul class="toc-headings"><li><a href="#r3components-1">R3.components</a></li></ul></li><li><a href="#框架派发的事件">框架派发的事件</a><ul class="toc-headings"><li><a href="#单对象界面">单对象界面</a></li><li><a href="#标准列表界面">标准列表界面</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>相关资源</h5><div class="contentResourse"><a href="/docs/ARK-Share">ARK Share</a><div>- 前端组件资源共享平台</div></div><div class="contentResourse"><a href="/docs/ARK-CLI">Ark Cli</a><div>- 前端开发工具</div></div><div class="contentResourse"><a href="/docs/ARK-DingTalk">ARK Dingtalk</a><div>- 基于钉钉E应用的移动端组件库</div></div><div class="contentResourse"><a href="/docs/ARK-Design">ARK Design</a><div>- 服务于企业级产品的设计语言</div></div></div><div class="zujianshijian"><h5>应用项目</h5><a href="/docs/R3-API">Burgeon R3</a><a href="/docs/JFlowPlugin-Version">JFlow</a></div><div class="moreInformation"><h5>更多信息</h5><a>Copyright © 2020 syman reserved.</a></div><div class="moreInformation"><h5>友情链接</h5><a href="https://www.ickd.cn/" target="_blank">快递查询</a></div></section></footer></div></body></html>
