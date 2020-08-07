@@ -57,14 +57,14 @@
         </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">JFlowPlugin Version</h1></header><article><div><span><h2><a class="anchor" aria-hidden="true" id="introduce"></a><a href="#introduce" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduce</h2>
 <p>JlofwPlugin是为了打通中台业务系统以及Jflow流程控制系统的插件，能够在Jflow后台配置系统中配置流程图以及流程规则,在中台业务系统中进行流程控制。JflowPlugin是基于R3业务系统开发，只限于在中台项目中使用</p>
 <h3><a class="anchor" aria-hidden="true" id="14版本"></a><a href="#14版本" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.4版本</h3>
-<pre><code class="hljs">$ <span class="hljs-built_in">npm</span> install @syman/jflow-plugin --save
+<pre><code class="hljs"><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">install</span> @<span class="hljs-keyword">syman</span>/<span class="hljs-keyword">jflow</span>-<span class="hljs-keyword">plugin</span> --save
 
 
-<span class="hljs-keyword">import</span> jflowPlugin <span class="hljs-keyword">from</span> <span class="hljs-string">'@syman/jflow-plugin'</span>;
+import jflowPlugin from <span class="hljs-string">'@syman/jflow-plugin'</span>;
 
-Vue.use(jflowPlugin, {
-  changePattern: <span class="hljs-literal">true</span>, <span class="hljs-regexp">//</span> 控制待办列表转派的选择模式 <span class="hljs-literal">true</span>为单选,<span class="hljs-literal">false</span>为多选
-  gateway: <span class="hljs-literal">null</span>
+<span class="hljs-selector-tag">Vue</span><span class="hljs-selector-class">.use</span>(<span class="hljs-selector-tag">jflowPlugin</span>, {
+  <span class="hljs-attribute">changePattern</span>: true, // 控制待办列表转派的选择模式 true为单选,false为多选
+  gateway: null  //jflow网关配置
 });
 
 </code></pre>
@@ -76,7 +76,7 @@ Vue.use(jflowPlugin, {
 <tbody>
 <tr><td>changePattern</td><td>Boolean</td><td>控制待办列表转派的选择模式</td><td>true</td></tr>
 <tr><td>gateway</td><td>String</td><td>jflow网关地址</td><td>-</td></tr>
-<tr><td>components</td><td>Object</td><td>组件的自定义,支持对统一，驳回，转派，人工干预进行自定义组件.{Argee,Back,Delegate,Intervention}组件名固定</td><td>-</td></tr>
+<tr><td>components</td><td>Object</td><td>组件的自定义,支持对同意，驳回，转派，人工干预进行自定义组件.{Argee,Back,Delegate,Intervention}组件名固定</td><td>-</td></tr>
 </tbody>
 </table>
 <p>挂载方法:</p>
