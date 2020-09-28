@@ -121,8 +121,8 @@ R3.launchApplication({
 <tr><td>externalModals</td><td>Object</td><td>自定义弹窗配置项</td><td></td><td></td></tr>
 <tr><td>projectRoutes</td><td>Object Array</td><td>项目自定义路由</td><td></td><td></td></tr>
 <tr><td>quietRoutes</td><td>String Array</td><td>外链quietRoutes</td><td></td><td></td></tr>
-<tr><td>Version</td><td>String</td><td>后台API版本</td><td></td><td>1.4</td></tr>
-<tr><td>enableGateWay</td><td>Boolean</td><td>是否启用网关</td><td></td><td>true</td></tr>
+<tr><td>Version</td><td>String</td><td>后台API版本</td><td></td><td>1.3</td></tr>
+<tr><td>enableGateWay</td><td>Boolean</td><td>是否启用网关</td><td></td><td>false</td></tr>
 <tr><td>ignoreGateWayPattern</td><td>RegExp</td><td>外链ignoreGateWayPattern</td><td></td><td></td></tr>
 <tr><td>extentionForTable</td><td>Object Array</td><td>“表”的扩展属性配置项</td><td></td><td></td></tr>
 <tr><td>extentionForColumn</td><td>Object Array</td><td>“字段”的扩展属性配置项</td><td></td><td></td></tr>
@@ -145,18 +145,16 @@ R3.launchApplication({
 <h3><a class="anchor" aria-hidden="true" id="r3urlsearchparams"></a><a href="#r3urlsearchparams" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>R3.urlSearchParams</h3>
 <h3><a class="anchor" aria-hidden="true" id="r3getmodulename"></a><a href="#r3getmodulename" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>R3.getModuleName</h3>
 <pre><code class="hljs">使用方法：
-       <span class="hljs-meta">import</span> <span class="hljs-built_in">R3</span> from <span class="hljs-string">'burgeon-r3'</span><span class="hljs-comment">;</span>
-       const {store } = <span class="hljs-built_in">R3</span><span class="hljs-comment">;</span>
-       <span class="hljs-built_in">R3</span>.getModuleName()
+       <span class="hljs-keyword">import</span> R3 <span class="hljs-keyword">from</span> <span class="hljs-string">'burgeon-r3'</span>;或者当你使用cdn的方式引用R3框架时，<span class="hljs-keyword">const</span> R3=<span class="hljs-built_in">window</span>.<span class="hljs-keyword">default</span>
+       R3.getModuleName()
 
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="r3menuclick"></a><a href="#r3menuclick" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>R3.menuClick</h3>
 <pre><code class="hljs"> 使用方法：
-          <span class="hljs-meta">import</span> <span class="hljs-built_in">R3</span> from <span class="hljs-string">'burgeon-r3'</span><span class="hljs-comment">;</span>
-          const {store } = <span class="hljs-built_in">R3</span><span class="hljs-comment">;</span>
-          <span class="hljs-built_in">R3</span>.menuClick(<span class="hljs-meta">data</span>,cb)<span class="hljs-comment">;</span>
+          <span class="hljs-keyword">import</span> R3 from <span class="hljs-string">'burgeon-r3'</span>;或者当你使用cdn的方式引用R3框架时，<span class="hljs-keyword">const</span> R3=window.<span class="hljs-keyword">default</span>
+          R3.menuClick(<span class="hljs-keyword">data</span>,cb);
  参数：
-          <span class="hljs-meta">data</span> 同菜单配置信息保持一致（可参照/p/cs/getSubSystems接口返回的数据）
+          <span class="hljs-keyword">data</span> 同菜单配置信息保持一致（可参照/p/cs/getSubSystems接口返回的数据）
           cb   回调函数
 </code></pre>
 <h2><a class="anchor" aria-hidden="true" id="properties"></a><a href="#properties" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Properties</h2>
@@ -174,13 +172,23 @@ R3.launchApplication({
 <h3><a class="anchor" aria-hidden="true" id="r3network"></a><a href="#r3network" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>R3.network</h3>
 <pre><code class="hljs">
 使用方法： 
-            <span class="hljs-keyword">import</span> R3 from <span class="hljs-string">'burgeon-r3'</span>;
-            <span class="hljs-keyword">const</span> {store } = R3;
+            <span class="hljs-keyword">import</span> R3 from <span class="hljs-string">'burgeon-r3'</span>;或者当你使用cdn的方式引用R3框架时，<span class="hljs-keyword">const</span> R3=<span class="hljs-built_in">window</span>.<span class="hljs-keyword">default</span>
             network.post(<span class="hljs-string">'接口名称'</span>, 参数)
-            network.<span class="hljs-built_in">get</span>(<span class="hljs-string">'接口名称'</span>, 参数)
+            network.<span class="hljs-keyword">get</span>(<span class="hljs-string">'接口名称'</span>, 参数)
 
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="r3components"></a><a href="#r3components" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>R3.components</h3>
+<pre><code class="hljs">ContentDisplayArea,
+PopDialog,
+ComAttachFilter,
+DownComponent,
+WaterMark,
+SearchForm,
+FilterTree,
+SelectTree,
+DocFile,
+ImportDialog
+</code></pre>
 <h4><a class="anchor" aria-hidden="true" id="usage-example-1"></a><a href="#usage-example-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage Example：</h4>
 <pre><code class="hljs"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
