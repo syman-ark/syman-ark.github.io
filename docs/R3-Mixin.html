@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>R3系统Mixin(混入)策略 · </title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&gt;背景：为适应不同项目在不同场景下所提出的千变万化的需求，框架提供mixin机制，给使用框架的项目方提供手段在框架的三大标准配置界面可适当接入项目内定制化的功能逻辑;"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="R3系统Mixin(混入)策略 · "/><meta property="og:type" content="website"/><meta property="og:url" content="https://syman-ark.github.io/"/><meta property="og:description" content="&gt;背景：为适应不同项目在不同场景下所提出的千变万化的需求，框架提供mixin机制，给使用框架的项目方提供手段在框架的三大标准配置界面可适当接入项目内定制化的功能逻辑;"/><meta property="og:image" content="https://syman-ark.github.io/http://ark-static.oss-cn-hangzhou.aliyuncs.com/ark-doc/static/img/undraw_online.svg"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://syman-ark.github.io/http://ark-static.oss-cn-hangzhou.aliyuncs.com/ark-doc/static/img/undraw_tweetstorm.svg"/><link rel="shortcut icon" href="/img/favicon.ico"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="//at.alicdn.com/t/font_1180712_fwm8p6w3rmr.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><script type="text/javascript" src="/js/appendHead.js"></script><script type="text/javascript" src="/js/index.js"></script><script src="/js/scrollSpy.js"></script><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/ARK_logo.svg" alt=""/><h2 class="headerTitleWithLogo"></h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"></ul></nav></div></header></div></div><div class="navPusher singleRowMobileNav"><div class="docMainWrapper wrapper"><div class="docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><div class="hamburger-menu"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div></div><h2><i>›</i><span>R3</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">R3</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/R3-START">R3 START</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-API">R3 API</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-RoutePolicy">R3 Route Policy</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-customPage-configuration-rules">R3 CustomPage Configuration Rules</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-CustomTabPolicy">R3 CustomTab Policy</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-Form-Config">R3 Form Config</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-System-Configuration-URL-JumpRules">R3 System Configuration URL JumpRules</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-Store">R3 Store</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-Extention-Config">Extention Configuration</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/R3-Mixin">R3 Mixin</a></li><li class="navListItem"><a class="navItem" href="/docs/R3-Update">R3 Update</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              var headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                var el = event.target;
+                while(el !== headings){
+                  if (el.tagName === 'A') {
+                    document.body.classList.remove('tocActive');
+                    break;
+                  } else{
+                    el = el.parentNode;
+                  }
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">R3系统Mixin(混入)策略</h1></header><article><div><span><blockquote>
+<p>背景：为适应不同项目在不同场景下所提出的千变万化的需求，框架提供mixin机制，给使用框架的项目方提供手段在框架的三大标准配置界面可适当接入项目内定制化的功能逻辑;</p>
+</blockquote>
+<blockquote>
+<h3><a class="anchor" aria-hidden="true" id="支持列表界面-单对象界面-上下-左右结构"></a><a href="#支持列表界面-单对象界面-上下-左右结构" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>支持列表界面，单对象界面（上下/左右结构）</h3>
+</blockquote>
+<p>使用此功能，你需要掌握Vue混入策略相关知识
+Vue混入策略官方文档：
+<a href='https://cn.vuejs.org/v2/guide/mixins.html' style='color:#1c90f3'>🔗https://cn.vuejs.org/v2/guide/mixins.html</a></p>
+<p><h2>R3.launchApplication(ProjectConfig:Object)</h2></p>
+<table>
+<thead>
+<tr><th>Param</th><th>Type</th><th>Description</th><th>IsRequired</th><th>Default Value</th></tr>
+</thead>
+<tbody>
+<tr><td>customizeMixins</td><td>Object</td><td>获取所有外部接入的mixins对象</td><td></td><td></td></tr>
+</tbody>
+</table>
+<p><h2>customizeMixins参数详细说明</h2></p>
+<table>
+<thead>
+<tr><th style="text-align:left">Param</th><th style="text-align:left">Type</th><th style="text-align:left">Description</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left">standardTableListsCustomize</td><td style="text-align:left">Object</td><td style="text-align:left">标准列表界面配置项</td></tr>
+<tr><td style="text-align:left">verticalTableDetailCustomize</td><td style="text-align:left">Object</td><td style="text-align:left">上下结构单对象界面配置项</td></tr>
+<tr><td style="text-align:left">horizontalTableDetailCustomize</td><td style="text-align:left">Object</td><td style="text-align:left">左右结构单对象界面配置项</td></tr>
+<tr><td style="text-align:left">taskList</td><td style="text-align:left">Object</td><td style="text-align:left">任务记录模块</td></tr>
+<tr><td style="text-align:left">setPanel</td><td style="text-align:left">Object</td><td style="text-align:left">设置面板模块</td></tr>
+</tbody>
+</table>
+<p>eg:
+示例场景为设置上下结构单对象界面混入文件</p>
+<blockquote>
+<p>index.js（项目入口文件）</p>
+</blockquote>
+<p><h2>第一步：引入需要混入的文件</h2></p>
+<pre><code class="hljs">    import verticalTableDetailCustomize from './src/config/minxin/verticalTableDetailCustomize.js';
+
+    verticalTableDetailCustomize.js建议写法
+        混入文件与框架对应的单对象文件或列表界面文件拥有同等生命周期，你可以拿到当前文件对应的被混入的文件的所有数据，但是由于框架数据给入的时机问题，会导致在处理一些需求时，拿到数据的时机不准确，因此建议在updated生命周期处理相关逻辑，以确保可以拿到准确数据
+        export default () =&gt; ({
+          data() {
+            return {};
+          },
+          watch: {},
+          created() {},
+          updated() {},
+          mounted() {},
+          methods: {},
+        });
+</code></pre>
+<p><h2> 第二步：你需要在R3框架启动项配置参数</h2></p>
+<pre><code class="hljs">    R3.launchApplication({
+          customizeMixins: { // 获取所有外部接入的mixins对象
+              verticalTableDetailCustomize: verticalTableDetailCustomize,
+          },
+    })
+</code></pre>
+<blockquote>
+<p>taskList（配置项）</p>
+</blockquote>
+<table>
+<thead>
+<tr><th style="text-align:left">Name</th><th style="text-align:left">Param</th><th style="text-align:left">Type</th><th style="text-align:left">Description</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left">optionsClick</td><td style="text-align:left">当前点击行数据</td><td style="text-align:left">Function</td><td style="text-align:left">操作列的点击方法,返回一个Promise对象</td></tr>
+</tbody>
+</table>
+<blockquote>
+<p>setPanel（配置项）</p>
+</blockquote>
+<table>
+<thead>
+<tr><th style="text-align:left">Name</th><th style="text-align:left">Param</th><th style="text-align:left">Type</th><th style="text-align:left">Description</th></tr>
+</thead>
+<tbody>
+<tr><td style="text-align:left">customizeComponent</td><td style="text-align:left">-</td><td style="text-align:left">Vue实例</td><td style="text-align:left">框架设置面板的自定义组件，通过设置customizeComponent字段可以展示对应的组件</td></tr>
+</tbody>
+</table>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/R3-Extention-Config"><span class="arrow-prev">← </span><span>Extention Configuration</span></a><a class="docs-next button" href="/docs/R3-Update"><span>R3 Update</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>相关资源</h5><div class="contentResourse"><a href="/docs/ARK-Share">ARK Share</a><div>- 前端组件资源共享平台</div></div><div class="contentResourse"><a href="/docs/ARK-CLI">Ark Cli</a><div>- 前端开发工具</div></div><div class="contentResourse"><a href="/docs/ARK-DingTalk">ARK Dingtalk</a><div>- 基于钉钉E应用的移动端组件库</div></div><div class="contentResourse"><a href="/docs/ARK-Design">ARK Design</a><div>- 服务于企业级产品的设计语言</div></div></div><div class="zujianshijian"><h5>应用项目</h5><a href="/docs/R3-API">Burgeon R3</a><a href="/docs/JFlowPlugin-Version">JFlow</a></div><div class="moreInformation"><h5>更多信息</h5><a>Copyright © 2020 syman reserved.</a></div><div class="moreInformation"><h5>友情链接</h5><a href="https://www.ickd.cn/" target="_blank">快递查询</a></div></section></footer></div></body></html>
