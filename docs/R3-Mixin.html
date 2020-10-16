@@ -86,16 +86,24 @@ Vue混入策略官方文档：
 </tbody>
 </table>
 <p>eg:
-示例场景为设置上下结构单对象界面混入文件</p>
+示例场景为设置标准列表界面混入文件</p>
 <blockquote>
 <p>index.js（项目入口文件）</p>
 </blockquote>
 <p><h2>第一步：引入需要混入的文件</h2></p>
-<pre><code class="hljs">    import verticalTableDetailCustomize from './src/config/minxin/verticalTableDetailCustomize.js';
+<pre><code class="hljs">    import standardTableListsCustomize from './src/config/minxin/standardTableListsCustomize.js';
 
-    verticalTableDetailCustomize.js建议写法
-        混入文件与框架对应的单对象文件或列表界面文件拥有同等生命周期，你可以拿到当前文件对应的被混入的文件的所有数据，但是由于框架数据给入的时机问题，会导致在处理一些需求时，拿到数据的时机不准确，因此建议在updated生命周期处理相关逻辑，以确保可以拿到准确数据
+    standardTableListsCustomize.js建议写法
+        混入文件与框架对应的单对象文件或列表界面文件拥有同等生命周期，你可以拿到当前文件对应的被混入的文件的所有数据，但是由于框架数据给入的时机问题，会导致在处理一些需求时，拿到数据的时机不准确，因此建议在updated生命周期处理相关逻辑，以确保可以拿到准确数据；
+
+        使用mixin机制处理逻辑时，建议项目在开发时将功能点独立为单独的mixin功能文件，以便功能方便维护；
+        
+         
+        
+
+
         export default () =&gt; ({
+          mixins: [standardMixinForBigBackground(), standardMixinForSetButtonsText()]
           data() {
             return {};
           },
@@ -109,7 +117,7 @@ Vue混入策略官方文档：
 <p><h2> 第二步：你需要在R3框架启动项配置参数</h2></p>
 <pre><code class="hljs">    R3.launchApplication({
           customizeMixins: { // 获取所有外部接入的mixins对象
-              verticalTableDetailCustomize: verticalTableDetailCustomize,
+                  standardTableListsCustomize: standardTableListsCustomize(), // 标准列表界面混入文件
           },
     })
 </code></pre>
@@ -135,4 +143,43 @@ Vue混入策略官方文档：
 <tr><td style="text-align:left">customizeComponent</td><td style="text-align:left">-</td><td style="text-align:left">Vue实例</td><td style="text-align:left">框架设置面板的自定义组件，通过设置customizeComponent字段可以展示对应的组件</td></tr>
 </tbody>
 </table>
+<p><h2> 第三步：增加功能</h2></p>
+<pre><code class="hljs"> eg：假设你需要开发一个重置标准列表界面海量图片的功能
+
+
+        第一步：你需要创建一个js文件，我们暂且将它命名为standardMixinForBigBackground.js
+              代码内容如下
+                    按照mixin的机制，你将拥有与框架配置界面的同等生命周期
+                    import bigBackground from '../../assets/image/login.png';//导入一张图片
+
+                    export default () =&gt; ({
+                      updated() {
+                        if (this.$refs.agTableElement &amp;&amp; this.$refs.agTableElement.bigBackground) { // 重置海量图片
+                          this.$refs.agTableElement.bigBackground = bigBackground;
+                        }
+                      },
+                    
+                    });
+        第二步： 将standardMixinForBigBackground.js文件引入standardTableListsCustomize.js中
+
+         standardTableListsCustomize.js中代码内容如下
+                import standardMixinForBigBackground from './standardMixinForBigBackground';
+
+                export default () =&gt; ({
+                  mixins: [standardMixinForBigBackground()],//支持配置通过mixin实现的多个功能点配置
+                  data() {
+                    return {};
+                  },
+                  watch: {},
+                  created() {},
+                  updated() {},
+                  mounted() {},
+                  methods: {},
+                });
+
+
+        第三步： 运行项目
+                你会发现你打开的配置海量功能的表所展示的图片已经替换为你设置的图片
+</code></pre>
+<p>r3-project-template仓库中mixin分支提供了完整的示例，可参考</p>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/R3-Extention-Config"><span class="arrow-prev">← </span><span>Extention Configuration</span></a><a class="docs-next button" href="/docs/R3-Update"><span>R3 Update</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>相关资源</h5><div class="contentResourse"><a href="/docs/ARK-Share">ARK Share</a><div>- 前端组件资源共享平台</div></div><div class="contentResourse"><a href="/docs/ARK-CLI">Ark Cli</a><div>- 前端开发工具</div></div><div class="contentResourse"><a href="/docs/ARK-DingTalk">ARK Dingtalk</a><div>- 基于钉钉E应用的移动端组件库</div></div><div class="contentResourse"><a href="/docs/ARK-Design">ARK Design</a><div>- 服务于企业级产品的设计语言</div></div></div><div class="zujianshijian"><h5>应用项目</h5><a href="/docs/R3-API">Burgeon R3</a><a href="/docs/JFlowPlugin-Version">JFlow</a></div><div class="moreInformation"><h5>更多信息</h5><a>Copyright © 2020 syman reserved.</a></div><div class="moreInformation"><h5>友情链接</h5><a href="https://www.ickd.cn/" target="_blank">快递查询</a></div></section></footer></div></body></html>
