@@ -394,7 +394,7 @@ ImportDialog
 
  注意：
          <span class="hljs-number">1.</span>自定义界面占据主表位置后，主表支持的按钮功能，此单据如需要，需要自定义界面支持；
-           eg:复制/新增/返回按钮等；
+           Example:复制/新增/返回按钮等；
          <span class="hljs-number">2.</span>新增时，自定义界面可根据路由判断当前表是新增状态；
 
    
@@ -420,26 +420,51 @@ ImportDialog
    
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="自定义弹出框相关说明"></a><a href="#自定义弹出框相关说明" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>自定义弹出框相关说明</h3>
-<pre><code class="hljs"> <span class="hljs-number">1.</span>确定按钮：  <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-literal">true</span>); <span class="hljs-comment">// 关闭弹框，参数传入true时，会根据元数据配置执行逻辑；</span>
- <span class="hljs-number">2.</span>取消按钮：  <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// 关闭弹框，参数为false时，则直接关闭弹框；</span>
+<pre><code class="hljs"> <span class="hljs-number">1</span>.确定按钮：  this.<span class="hljs-variable">$emit</span>(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-keyword">true</span>); <span class="hljs-regexp">//</span> 关闭弹框，参数传入<span class="hljs-keyword">true</span>时，会根据元数据配置执行逻辑；
+ <span class="hljs-number">2</span>.取消按钮：  this.<span class="hljs-variable">$emit</span>(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-keyword">false</span>); <span class="hljs-regexp">//</span> 关闭弹框，参数为<span class="hljs-keyword">false</span>时，则直接关闭弹框；
 
- prop:{
-     idArray: {<span class="hljs-comment">// 可获取明细表勾选的明细ID</span>
-       <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">Array</span>, <span class="hljs-built_in">Object</span>],
-       <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
-     },
-     objTabActionDialogConfig: {<span class="hljs-comment">// 当前自定义按钮元数据配置信息</span>
-       <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">Object</span>],
-       <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
-     },
-     popwinMessage: {<span class="hljs-comment">// 获取标准列表界面表格配置popwin类型字段配置的refobjid</span>
-       <span class="hljs-keyword">type</span>: <span class="hljs-built_in">Object</span>,
-       <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
-     },
- }
+</code></pre>
+<table>
+<thead>
+<tr><th>closeActionDialog方法参数说明（形参）</th><th>第一个参数</th><th>第二个参数</th><th>第三个参数</th></tr>
+</thead>
+<tbody>
+<tr><td>type</td><td>Boolean</td><td>Array</td><td>String</td></tr>
+<tr><td>Description</td><td>true:根据元数据配置执行逻辑;false :直接关闭弹框</td><td>对应报错的明细的信息</td><td>当前标准列表界面对应的模块名称</td></tr>
+</tbody>
+</table>
+<pre><code class="hljs">Example:
+          <span class="hljs-keyword">const</span> failInfo = [
+              {
+                <span class="hljs-attr">message</span>: <span class="hljs-string">'报错信息'</span>, <span class="hljs-comment">// 报错信息</span>
+                objid: <span class="hljs-number">11</span><span class="hljs-comment">// 对应明细ID</span>
+              }
+            ];
+            <span class="hljs-keyword">const</span> moduleComponentName = <span class="hljs-string">`S.<span class="hljs-subst">${<span class="hljs-keyword">this</span>.$route.params.tableName}</span>.<span class="hljs-subst">${ <span class="hljs-keyword">this</span>.$route.params.tableId}</span>`</span>;<span class="hljs-comment">// 当前模块名称</span>
+            <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">'closeActionDialog'</span>, <span class="hljs-literal">true</span>, failInfo, moduleComponentName); <span class="hljs-comment">// 关闭弹框</span>
+</code></pre>
+<p><img src="../img/example.png" alt="页面展示效果"></p>
+<pre><code class="hljs">  prop:{
+      idArray: {<span class="hljs-comment">// 可获取明细表勾选的明细ID</span>
+        <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">Array</span>, <span class="hljs-built_in">Object</span>],
+        <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
+      },
+      objTabActionDialogConfig: {<span class="hljs-comment">// 当前自定义按钮元数据配置信息</span>
+        <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">Object</span>],
+        <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
+      },
+      popwinMessage: {<span class="hljs-comment">// 获取标准列表界面表格配置popwin类型字段配置的refobjid</span>
+        <span class="hljs-keyword">type</span>: <span class="hljs-built_in">Object</span>,
+        <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
+      },
+       selectRowData: {<span class="hljs-comment">// 获取ID用于多选,获取勾选的明细对应的row内的数据</span>
+        <span class="hljs-keyword">type</span>: [<span class="hljs-built_in">Array</span>, <span class="hljs-built_in">Object</span>],
+        <span class="hljs-keyword">default</span>: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {}
+      },
+  }
 
+     
     
-   
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="框架内置自定义界面支持配置requesturl"></a><a href="#框架内置自定义界面支持配置requesturl" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>框架内置自定义界面支持配置requestUrl</h3>
 <pre><code class="hljs"><span class="hljs-selector-tag">R3</span><span class="hljs-selector-class">.launchApplication</span>({
@@ -504,7 +529,7 @@ ImportDialog
 
    第二步你需要做以下几件事情：   
       externalTreeDatasConfig.js
-            eg:
+            Example:
                   先定义一个<span class="hljs-function"><span class="hljs-keyword">function</span>,如下
                      <span class="hljs-title">const</span> <span class="hljs-title">function</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-title">async</span> (<span class="hljs-params"></span>) =&gt; </span>{
                        <span class="hljs-comment">//注：请参照以下同步请求的写法</span>
@@ -587,7 +612,7 @@ link：外链界面
 }
 
 <span class="hljs-type">Id</span>:定制界面标识或者外链界面标识,可通过路由获取 
-    eg:  http://<span class="hljs-number">123</span>:<span class="hljs-number">8193</span>/<span class="hljs-type">CUSTOMIZED</span>/<span class="hljs-type">FUNCTIONPERMISSION</span>/<span class="hljs-number">2097</span>
+    <span class="hljs-type">Example</span>:  http://<span class="hljs-number">123</span>:<span class="hljs-number">8193</span>/<span class="hljs-type">CUSTOMIZED</span>/<span class="hljs-type">FUNCTIONPERMISSION</span>/<span class="hljs-number">2097</span>
     如以上路由标识则为<span class="hljs-type">FUNCTIONPERMISSION</span>
 
 <span class="hljs-class"><span class="hljs-keyword">type</span>：</span>
@@ -816,7 +841,7 @@ Docfile:文件上传组件
 <pre><code class="hljs">项目内调用过框架提供的tabCloseAppoint方法，因此功能，参数上需做调整；
 
 
-eg:   如果你是像一下方式调用的方法，需要根据不同类型的表进行处理
+Example:   如果你是像一下方式调用的方法，需要根据不同类型的表进行处理
         $store.commit(<span class="hljs-string">'global/tabCloseAppoint'</span>, {
           tableName: <span class="hljs-keyword">data</span>.detail.tableName, <span class="hljs-comment">//(主表表名),</span>
           routeFullPath: <span class="hljs-keyword">data</span>.detail.routePath <span class="hljs-comment">//（路由path）</span>
