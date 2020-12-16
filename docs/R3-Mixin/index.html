@@ -239,4 +239,44 @@ eg:singlePageMixinForSave.js  （定制的左右结构混入文件）</p>
     左右结构同上
 
 </code></pre>
+<h1><a class="anchor" aria-hidden="true" id="单对象界面提供的方法"></a><a href="#单对象界面提供的方法" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>单对象界面提供的方法</h1>
+<h3><a class="anchor" aria-hidden="true" id="单对象刷新后恢复到刷新前滚动的位置"></a><a href="#单对象刷新后恢复到刷新前滚动的位置" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>单对象刷新后恢复到刷新前滚动的位置</h3>
+<pre><code class="hljs">  
+  第一步：框架启动项配置参数（项目入口文件内）
+
+  导入需要混入的文件
+      <span class="hljs-keyword">import</span> verticalTableDetailCustomize <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/config/minxin/verticalTableDetailCustomize.js'</span>;导入需要混入的文件
+      <span class="hljs-keyword">import</span> horizontalTableDetailCustomize <span class="hljs-keyword">from</span> <span class="hljs-string">'./src/config/minxin/horizontalTableDetailCustomize.js'</span>;
+
+  框架启动项配置customizeMixins参数（R3.launchApplication）：
+    customizeMixins: { <span class="hljs-comment">// 获取所有外部接入的mixins对象</span>
+      verticalTableDetailCustomize: verticalTableDetailCustomize(), <span class="hljs-comment">// 上下结构单对象界面混入文件</span>
+      horizontalTableDetailCustomize: horizontalTableDetailCustomize(), <span class="hljs-comment">// 上下结构单对象界面混入文件</span>
+    },
+
+
+  verticalTableDetailCustomize.js文件代码内容：该文件代表单对象上下结构接入的混入文件
+    <span class="hljs-keyword">import</span> verticalMixinForScrollPosition <span class="hljs-keyword">from</span> <span class="hljs-string">'./verticalMixinForScrollPosition.js'</span>;导入verticalMixinForScrollPosition.js文件
+
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; ({
+      <span class="hljs-attr">mixins</span>: [verticalMixinForScrollPosition()]<span class="hljs-comment">//将导入的文件verticalMixinForScrollPosition文件混入到该组件中</span>
+    });
+
+
+  horizontalTableDetailCustomize.js.js文件代码内容：该文件代表单对象左右结构接入的混入文件
+    <span class="hljs-keyword">import</span> horizontalMixinForScrollPosition <span class="hljs-keyword">from</span> <span class="hljs-string">'./horizontalMixinForScrollPosition.js'</span>;导入horizontalMixinForScrollPosition.js文件
+
+    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> () =&gt; ({
+      <span class="hljs-attr">mixins</span>: [horizontalMixinForScrollPosition()]<span class="hljs-comment">//将导入的文件horizontalMixinForScrollPosition文件混入到该组件中</span>
+    });
+</code></pre>
+<pre><code class="hljs">
+  第二步：需要到<span class="hljs-selector-tag">ArkShare</span>上下载资源文件（<span class="hljs-selector-tag">verticalTableDetailCustomize</span><span class="hljs-selector-class">.js</span>与<span class="hljs-selector-tag">horizontalMixinForScrollPosition</span><span class="hljs-selector-class">.js</span>）
+ 
+ 
+</code></pre>
+<p><a href='http://share.ark.burgeononline.com/' style='color:#1c90f3'>🔗ArkShare地址</a></p>
+<blockquote>
+<p>知识库&gt;ARK Share公开库&gt;R3框架</p>
+</blockquote>
 </span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/R3-Extention-Config"><span class="arrow-prev">← </span><span>Extention Configuration</span></a><a class="docs-next button" href="/docs/R3-Update"><span>R3 Update</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><div><h5>相关资源</h5><div class="contentResourse"><a href="/docs/ARK-Share">ARK Share</a><div>- 前端组件资源共享平台</div></div><div class="contentResourse"><a href="/docs/ARK-CLI">Ark Cli</a><div>- 前端开发工具</div></div><div class="contentResourse"><a href="/docs/ARK-DingTalk">ARK Dingtalk</a><div>- 基于钉钉E应用的移动端组件库</div></div><div class="contentResourse"><a href="/docs/ARK-Design">ARK Design</a><div>- 服务于企业级产品的设计语言</div></div></div><div class="zujianshijian"><h5>应用项目</h5><a href="/docs/R3-API">Burgeon R3</a><a href="/docs/JFlowPlugin-Version">JFlow</a></div><div class="moreInformation"><h5>更多信息</h5><a>Copyright © 2020 syman reserved.</a></div><div class="moreInformation"><h5>友情链接</h5><a href="https://www.ickd.cn/" target="_blank">快递查询</a></div></section></footer></div></body></html>
