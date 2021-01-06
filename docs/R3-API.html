@@ -408,12 +408,12 @@ ImportDialog
     <span class="hljs-keyword">import</span> R3 from <span class="hljs-string">'burgeon-r3'</span>;
 
 
-     <span class="hljs-keyword">const</span> { path } = <span class="hljs-keyword">this</span>.$route;<span class="hljs-comment">//获取当前路由path</span>
+     <span class="hljs-keyword">const</span> { fullPath } = <span class="hljs-keyword">this</span>.$route;<span class="hljs-comment">//获取当前路由fullPath</span>
      <span class="hljs-keyword">const</span> { keepAliveModuleName, tableName } = <span class="hljs-keyword">this</span>.$store.state.global.activeTab;<span class="hljs-comment">//获取当前缓存模块名称，自定义标识</span>
 
      R3.store.commit(<span class="hljs-string">'global/tabCloseAppoint'</span>,
        {
-          routeFullPath: path,<span class="hljs-comment">//当前路由path</span>
+          routeFullPath: fullPath,<span class="hljs-comment">//当前路由fullPath</span>
           stopRouterPush: <span class="hljs-literal">true</span>, <span class="hljs-comment">//默认参数</span>
           keepAliveModuleName,<span class="hljs-comment">//当前模块名称</span>
           tableName<span class="hljs-comment">//当前自定义表标识</span>
